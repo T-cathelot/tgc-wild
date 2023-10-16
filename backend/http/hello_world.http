@@ -1,0 +1,109 @@
+
+GET http://localhost:5000/categories
+
+###
+GET http://localhost:5000/categories/1
+
+
+###
+
+GET http://localhost:5000/categories/
+
+###
+
+POST http://localhost:5000/categories
+content-type: application/json
+
+{
+    "name": "other",
+    "link" : ""
+  }
+
+###
+
+DELETE http://localhost:5000/categories/6
+
+###
+
+PATCH   http://localhost:5000/categories/3
+content-type: application/json
+
+{
+
+      "name" : "other"
+
+  }
+
+  # Ads part :
+  
+###
+
+GET http://localhost:5000/ads
+
+###
+
+GET http://localhost:5000/ads/vehicle
+
+###
+
+POST http://localhost:5000/ads 
+content-type: application/json
+
+# {
+#     "title": "My wonderful bike",
+#     "description": "i'm selling my bike",
+#     "price": 100,
+#     "imgUrl" :"https://cdn.pixabay.com/photo/2015/08/27/09/06/bike-909690_1280.jpg",
+#     "location": "Nantes",
+#     "categories": {"id": 1 }
+   
+#   }
+
+
+  {
+      "title": "Dr.Martens",
+    "description": "i'm selling my boots in 42, the life is wild, be punk!",
+    "price": 150,
+    "imgUrl" :"https://cdn.pixabay.com/photo/2017/04/29/14/23/boots-2270855_1280.jpg",
+    "location": "Paris",
+    "categories": {"id": 2}
+  }
+
+#   {
+#     "title": "Super Bike",
+#     "description": "My blue bike",
+#     "owner": "bike.seller@gmail.com",
+#     "price": 50,
+#     "location": "Bordeaux"
+   
+# }
+
+  # {
+  #   "title": "Super boat",
+  #   "description": "My green boat",
+  #   "owner": "boat.seller@gmail.com",
+  #   "price": 50000,
+  #   "location": "Bordeaux"
+   
+  # }
+
+
+###
+
+PATCH   http://localhost:5000/ads/20
+content-type: application/json
+
+{
+
+       "title": "Ampli guitare"
+
+  }
+
+###
+
+
+DELETE http://localhost:5000/ads/3
+
+ 
+  
+###
