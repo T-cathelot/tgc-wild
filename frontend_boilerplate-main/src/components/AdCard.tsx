@@ -9,8 +9,7 @@ type AdType = {
   description: string;
   imgUrl: string;
   price: number;
-  // link: string;
-  categories: number;
+  category: CategoriesProps | null;
 };
 
 type AdCardProps = AdType & {

@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import AdCard, { AdCardProps } from "./AdCard";
 import { useState } from "react";
 import axios from "axios";
-import TestSvg from "./TestSvg";
 
 type RecentAdsProps = {
   categories?: number;
@@ -32,7 +31,6 @@ const RecentAds = ({ categories }: RecentAdsProps): React.ReactNode => {
 
   return (
     <main className="main-content">
-      <TestSvg />
       <h2 className="recentAd-title">Annonces récentes</h2>
       <p className="recentAd-text">Total price {totalPrice} €</p>
       <section className="recent-ads">
@@ -44,7 +42,7 @@ const RecentAds = ({ categories }: RecentAdsProps): React.ReactNode => {
               imgUrl={ad.imgUrl}
               description={ad.description}
               price={ad.price}
-              categories={ad.categories}
+              category={ad.category}
               onDelete={() => {
                 getAds();
                 setTotalPrice(totalPrice - ad.price);
