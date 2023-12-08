@@ -1,4 +1,4 @@
-import { Arg, ID, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, ID, Int, Mutation, Query, Resolver } from "type-graphql";
 import { Ads, AdsCreateInput, AdsUpdateInput, AdsWhere } from "../entities/Ads";
 import { validate } from "class-validator";
 import { merge } from "../utils";
@@ -8,7 +8,9 @@ import { In, LessThanOrEqual, Like, MoreThanOrEqual } from "typeorm";
 export class AdsResolver {
   @Query(() => [Ads])
   async allAds(
-    @Arg("where", { nullable: true }) where?: AdsWhere
+    @Arg("where", { nullable: true }) where?: AdsWhere,
+    @Arg("take", () => Int, { nullable: true }) take?: number,
+    @Arg("skip", () => Int, { nullable: true }) skip?: number
   ): Promise<Ads[]> {
     console.log("Query Parameters:", where);
     const queryWhere: any = {};
@@ -45,6 +47,8 @@ export class AdsResolver {
     } */
 
     const ads = await Ads.find({
+      take: take ?? 50,
+      skip,
       where: queryWhere,
       //order,
       relations: {
@@ -53,6 +57,49 @@ export class AdsResolver {
       },
     });
     return ads;
+  }
+
+  @Query(() => Int)
+  async allAdsCount(
+    @Arg("where", { nullable: true }) where?: AdsWhere
+  ): Promise<number> {
+    const queryWhere: any = {};
+
+    if (where?.categories) {
+      queryWhere.categories = { id: In(where.categories) };
+    }
+
+    if (where?.searchTitle) {
+      queryWhere.title = Like(`%${where.searchTitle}%`);
+    }
+
+    if (where?.priceGte) {
+      queryWhere.price = MoreThanOrEqual(Number(where.priceGte));
+    }
+
+    if (where?.priceLte) {
+      queryWhere.price = LessThanOrEqual(Number(where.priceLte));
+    }
+
+    /* const order: any = {};
+    if (
+      typeof req.query.orderByTitle === "string" &&
+      ["ASC", "DESC"].includes(req.query.orderByTitle)
+    ) {
+      order.title = req.query.orderByTitle; // req.query.orderByTitle = ASC | DESC
+    }
+
+    if (
+      typeof req.query.orderByPrice === "string" &&
+      ["ASC", "DESC"].includes(req.query.orderByPrice)
+    ) {
+      order.price = req.query.orderByPrice; // req.query.orderByTitle = ASC | DESC
+    } */
+
+    const count = await Ads.count({
+      where: queryWhere,
+    });
+    return count;
   }
 
   @Query(() => Ads, { nullable: true })

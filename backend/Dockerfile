@@ -4,9 +4,10 @@ WORKDIR /app
 
 COPY package.json package.json
 
-COPY npm i
+run npm i
 
 COPY src src
-COPY .prettierrc .prettierrc
-Copy tsconfig.json tsconfig.json
+COPY tsconfig.json tsconfig.json
 
+
+CMD npm start

@@ -1,0 +1,25 @@
+services:
+  backend:
+    build: 
+      context: ./backend
+      target: prod
+      args:
+        DOCKER_BUILDKIT: 1
+    ports:
+      - 5000:5000 # local:container
+    env_file: ./backend/.env
+  db:
+    image: postgres
+    ports:
+      - 5433:5432 # local:container
+    volumes:
+      - /var/lib/postgresql/data
+    env_file: .env
+  frontend:
+    build: 
+      context: ./frontend
+      target: prod
+      args:
+        DOCKER_BUILDKIT: 1
+    ports:
+      - 3001:3000 # local:container
