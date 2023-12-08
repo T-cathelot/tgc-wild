@@ -37,7 +37,6 @@ export default function AdForm(props: AdFormProps) {
     loading: categoriesLoading,
   } = useQuery<{ items: CategoriesProps[] }>(getAllCategories, {});
   const categories = categoriesData ? categoriesData.items : [];
-
   const router = useRouter();
 
   async function onSubmit(event: FormEvent<HTMLFormElement>) {
@@ -105,14 +104,18 @@ export default function AdForm(props: AdFormProps) {
       setDescription(props.ad.description);
       setPrice(props.ad.price);
       setImgUrl(props.ad.imgUrl);
-      setCategoryId(props.ad.categories ? props.ad.categories.id : null);
+      setCategoryId(
+        props.ad.categories ? props.ad.categories.id : categories[0]?.id
+      );
+    } else if (categories.length > 0) {
+      setCategoryId(categories[0].id);
     }
-  }, [props.ad]);
+  }, [props.ad, categories]);
 
   return (
     <Layout title="Nouvelle offre">
-      <main className="main-content">
-        <div className="edit-container">
+      <div className="edit-container">
+        <div className="edit-secondContainer">
           <h2 className="editAd-title">
             {props.ad ? "Modifier l'offre" : "Nouvelle offre"}
           </h2>
@@ -182,7 +185,7 @@ export default function AdForm(props: AdFormProps) {
             </div>
           </form>
         </div>
-      </main>
+      </div>
     </Layout>
   );
 }

@@ -1,17 +1,18 @@
 import { gql } from "@apollo/client";
 
 export const getAllAds = gql`
-  query ads($where: AdsWhere) {
-    items: allAds(where: $where) {
+  query AllAds($skip: Int, $take: Int, $where: AdsWhere) {
+    items: allAds(skip: $skip, take: $take, where: $where) {
       id
       title
-      price
       imgUrl
+      price
       description
       categories {
         id
         name
       }
     }
+    count: allAdsCount(where: $where)
   }
 `;

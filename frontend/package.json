@@ -10,6 +10,10 @@
   },
   "dependencies": {
     "@apollo/client": "^3.8.6",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.14.20",
+    "@svgr/webpack": "^8.1.0",
     "@types/node": "20.6.2",
     "@types/react": "18.2.22",
     "@types/react-dom": "18.2.7",
@@ -22,6 +26,7 @@
     "react-dom": "18.2.0",
     "react-hot-toast": "^2.4.1",
     "react-router-dom": "^6.16.0",
+    "react-tooltip": "^5.24.0",
     "typescript": "5.2.2"
   }
 }

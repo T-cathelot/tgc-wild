@@ -1,4 +1,4 @@
-import "@/styles/globals.css";
+import "@/styles/global_test.css";
 import type { AppProps } from "next/app";
 import dynamic from "next/dynamic";
 import { Toaster } from "react-hot-toast";
