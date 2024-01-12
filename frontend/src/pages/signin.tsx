@@ -7,8 +7,8 @@ import React, { FormEvent, useState } from "react";
 import { toast } from "react-toastify";
 
 const Signin = (): React.ReactNode => {
-  const [email, setEmail] = useState("coco@gmail.com");
-  const [password, setPassword] = useState("cocorico");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const router = useRouter();
 
