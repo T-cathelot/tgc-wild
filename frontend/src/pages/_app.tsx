@@ -8,7 +8,7 @@ import {
   createHttpLink,
   useQuery,
 } from "@apollo/client";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import { getMe } from "@/graphql/getMe";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -29,7 +29,6 @@ const publicPages = ["/", "/signup", "/ads/[id]"];
 const Auth = (props: { children: React.ReactNode }) => {
   const { data, loading, error } = useQuery<{ item: UserType }>(getMe);
   const router = useRouter();
-  console.log("here the data", data);
 
   useEffect(() => {
     if (publicPages.includes(router.pathname) === false) {

@@ -1,6 +1,5 @@
 import Layout from "../../../components/Layout";
 import axios from "axios";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { AdCardProps, AdType } from "../../../components/AdCard";

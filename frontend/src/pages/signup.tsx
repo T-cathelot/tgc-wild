@@ -33,26 +33,30 @@ const Signup = (): React.ReactNode => {
 
   return (
     <Layout title="signup">
-      <div>
-        <p>l&apos;enregistrement</p>
-        <br />
-        <form onSubmit={onSubmit}>
-          <label>Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="email"
-          />
-          <label>password</label>
-          <input
-            type="passWord"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="password"
-          />
-          <button type="submit">M&apos;enregistrer</button>
-        </form>
+      <div className="edit-container">
+        <div className="edit-secondContainer">
+          <h2 className="signup-title">Inscription</h2>
+          <br />
+          <form onSubmit={onSubmit} className="form-container">
+            <input
+              className="text-field"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="email"
+            />
+            <input
+              className="text-field"
+              type="passWord"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="password"
+            />
+            <button type="submit" className="signup-button">
+              M&apos;enregistrer
+            </button>
+          </form>
+        </div>
       </div>
     </Layout>
   );

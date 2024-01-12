@@ -54,7 +54,7 @@ const Header = () => {
   const ApolloClient = useApolloClient();
 
   const logout = async () => {
-    ApolloClient.clearStore();
+    ApolloClient.resetStore();
     doSignout();
   };
 
@@ -70,58 +70,62 @@ const Header = () => {
   return (
     <header className="header">
       <div className="main-menu">
-        <Tooltip id="toolTipTest" />
-        <h1>
-          <Link href="/" className="btn-logo">
-            <span className="mobile-short-label">
-              <img
-                src="/images/achats.png"
-                // data-tooltip-id="toolTipTest"
-                // data-tooltip-content="Home"
-                // data-tooltip-place="bottom"
-                className="app-logo"
-              />
-            </span>
-            <span className="desktop-long-label">
-              <img
-                src="/images/achats.png"
-                // data-tooltip-id="toolTipTest"
-                // data-tooltip-content="Home"
-                // data-tooltip-place="bottom"
-                className="app-logo"
-              />
-            </span>
-          </Link>
-        </h1>
-        <form className="text-field-with-button" onSubmit={onSubmit}>
-          {/* <input
+        <div className="dv-header-logo-and-search">
+          <div>
+            <Tooltip id="toolTipTest" />
+            <Link href="/" className="btn-logo">
+              <span className="mobile-short-label">
+                <img
+                  src="/images/achats.png"
+                  // data-tooltip-id="toolTipTest"
+                  // data-tooltip-content="Home"
+                  // data-tooltip-place="bottom"
+                  className="app-logo"
+                />
+              </span>
+              <span className="desktop-long-label">
+                <img
+                  src="/images/achats.png"
+                  // data-tooltip-id="toolTipTest"
+                  // data-tooltip-content="Home"
+                  // data-tooltip-place="bottom"
+                  className="app-logo"
+                />
+              </span>
+            </Link>
+          </div>
+          <div>
+            <form className="text-field-with-button" onSubmit={onSubmit}>
+              {/* <input
             className="text-field main-search-field"
             type="search"
           
           
           /> */}
-          <Box
-            component="form"
-            sx={{
-              "& > :not(style)": { m: 1, width: "30vw" },
-            }}
-            noValidate
-            autoComplete="on"
-          >
-            <SearchTextField
-              label="Search field"
-              id="filled-search"
-              type="search"
-              size="small"
-              value={searchWord}
-              onChange={(e) => setSearchWord(e.target.value)}
-            />
-          </Box>
-          <button className="button button-primary" type="submit">
-            {/* ... le reste de votre bouton */} Search
-          </button>
-        </form>
-        <div>
+              <Box
+                component="form"
+                sx={{
+                  "& > :not(style)": { m: 1, width: "30vw" },
+                }}
+                noValidate
+                autoComplete="on"
+              >
+                <SearchTextField
+                  label="Search field"
+                  id="filled-search"
+                  type="search"
+                  size="small"
+                  value={searchWord}
+                  onChange={(e) => setSearchWord(e.target.value)}
+                />
+              </Box>
+              <button className="button button-primary" type="submit">
+                {/* ... le reste de votre bouton */} Search
+              </button>
+            </form>
+          </div>
+        </div>
+        <div className="dv-header-button">
           {me && (
             <>
               {" "}

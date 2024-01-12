@@ -112,10 +112,6 @@ export default function AdForm(props: AdFormProps) {
     }
   }, [props.ad, categories]);
 
-  if (createLoading || updateLoading) {
-    return toast.loading("Chargement...");
-  }
-
   return (
     <Layout title="Nouvelle offre">
       <div className="edit-container">

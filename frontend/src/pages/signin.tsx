@@ -34,26 +34,30 @@ const Signin = (): React.ReactNode => {
 
   return (
     <Layout title="signin">
-      <div>
-        <p>l&apos;authentification</p>
-        <br />
-        <form onSubmit={onSubmit}>
-          <label>Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="email"
-          />
-          <label>password</label>
-          <input
-            type="passWord"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="password"
-          />
-          <button type="submit">connexion</button>
-        </form>
+      <div className="edit-container">
+        <div className="edit-secondContainer">
+          <h2 className="signin-title">Connexion</h2>
+          <br />
+          <form onSubmit={onSubmit} className="form-container">
+            <input
+              className="text-field"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="email"
+            />
+            <input
+              className="text-field"
+              type="passWord"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="mot de passe"
+            />
+            <button className="signin-button" type="submit">
+              connexion
+            </button>
+          </form>
+        </div>
       </div>
     </Layout>
   );
