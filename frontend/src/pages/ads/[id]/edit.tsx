@@ -1,13 +1,9 @@
-/* eslint-disable react/no-unescaped-entities */
 import { AdType } from "@/components/AdCard";
 import AdForm from "@/components/AdForm";
 import Layout from "@/components/Layout";
 import { getAd } from "@/graphql/getAd";
 import { useQuery } from "@apollo/client";
-
-import axios from "axios";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 
 export default function EditAd() {
   const router = useRouter();

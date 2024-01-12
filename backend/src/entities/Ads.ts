@@ -12,6 +12,7 @@ import { IsInt, Length, ValidateIf } from "class-validator";
 import { Categories } from "./Categories";
 import { Tag } from "./Tag";
 import { Field, ID, InputType, Int, ObjectType } from "type-graphql";
+import { User } from "./User";
 
 @Entity()
 @ObjectType()
@@ -45,8 +46,6 @@ export class Ads extends BaseEntity {
   categories!: Categories;
 
   @ManyToMany(() => Tag, (tag) => tag.ads)
-  // check with SQLite extension! If you forget this following line, the
-  // pivot table won't be generated
   @JoinTable()
   @Field(() => [Tag])
   tags!: Tag[];
@@ -54,6 +53,10 @@ export class Ads extends BaseEntity {
   @CreateDateColumn()
   @Field()
   createdAt!: Date;
+
+  @ManyToOne(() => User, (user) => user.ads)
+  @Field(() => User)
+  createdBy!: User;
 }
 
 @InputType()

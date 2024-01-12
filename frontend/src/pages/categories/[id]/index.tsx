@@ -19,13 +19,9 @@ export default function Category() {
     if (id) {
       const result = await axios.get(`http://localhost:5000/categories/${id}`);
       setCategory(result.data);
-
-      const filteredAds = adByCategory.filter((ad) => ad.categories === id);
-      setAdByCategory(filteredAds);
     }
   };
   useEffect(() => {
-    // mounting
     if (id !== undefined) {
       filterByCategory();
     }
@@ -61,12 +57,8 @@ export default function Category() {
                 title={ad.title}
                 imgUrl={ad.imgUrl}
                 description={ad.description}
-                link={ad.link}
                 price={ad.price}
                 categories={ad.categories}
-                onDelete={() => {
-                  getAds();
-                }}
                 onAddToTotalPrice={(price) => {
                   handelPrice(price);
                 }}

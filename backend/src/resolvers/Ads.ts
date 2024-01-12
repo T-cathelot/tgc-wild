@@ -1,4 +1,13 @@
-import { Arg, ID, Int, Mutation, Query, Resolver } from "type-graphql";
+import {
+  Arg,
+  Authorized,
+  Ctx,
+  ID,
+  Int,
+  Mutation,
+  Query,
+  Resolver,
+} from "type-graphql";
 import { Ads, AdsCreateInput, AdsUpdateInput, AdsWhere } from "../entities/Ads";
 import { validate } from "class-validator";
 import { merge } from "../utils";
@@ -8,11 +17,12 @@ import { In, LessThanOrEqual, Like, MoreThanOrEqual } from "typeorm";
 export class AdsResolver {
   @Query(() => [Ads])
   async allAds(
-    @Arg("where", { nullable: true }) where?: AdsWhere,
+    @Ctx() context: { req: any; res: any },
+    @Arg("where", { nullable: true })
+    where?: AdsWhere,
     @Arg("take", () => Int, { nullable: true }) take?: number,
     @Arg("skip", () => Int, { nullable: true }) skip?: number
   ): Promise<Ads[]> {
-    console.log("Query Parameters:", where);
     const queryWhere: any = {};
 
     if (where?.categories) {
@@ -54,6 +64,7 @@ export class AdsResolver {
       relations: {
         categories: true,
         tags: true,
+        createdBy: true,
       },
     });
     return ads;
@@ -101,7 +112,7 @@ export class AdsResolver {
     });
     return count;
   }
-
+  @Authorized()
   @Query(() => Ads, { nullable: true })
   async ad(@Arg("id", () => ID) id: number): Promise<Ads | null> {
     const ad = await Ads.findOne({
@@ -111,12 +122,16 @@ export class AdsResolver {
     return ad;
   }
 
+  @Authorized()
   @Mutation(() => Ads)
   async createAds(
+    @Ctx() context: any,
     @Arg("data", () => AdsCreateInput) data: AdsCreateInput
   ): Promise<Ads> {
     const newAds = new Ads();
-    Object.assign(newAds, data);
+    Object.assign(newAds, data, {
+      createdBy: context.user,
+    });
 
     const errors = await validate(newAds);
     if (errors.length === 0) {
@@ -127,17 +142,21 @@ export class AdsResolver {
     }
   }
 
+  @Authorized()
   @Mutation(() => Ads, { nullable: true })
   async updateAds(
+    @Ctx() context: any,
     @Arg("id", () => ID) id: number,
     @Arg("data") data: AdsUpdateInput
   ): Promise<Ads | null> {
     const ad = await Ads.findOne({
       where: { id: id },
-      relations: { tags: true },
+      relations: { tags: true, createdBy: true },
     });
 
-    if (ad) {
+    console.log("User in context:", context.user);
+
+    if (ad && ad.createdBy.id === context.user?.id) {
       merge(ad, data);
       const errors = await validate(ad);
       if (errors.length === 0) {
@@ -152,8 +171,9 @@ export class AdsResolver {
       } else {
         throw new Error(`Error occured: ${JSON.stringify(errors)}`);
       }
+    } else {
+      return null;
     }
-    return ad;
   }
 
   @Mutation(() => Ads, { nullable: true })

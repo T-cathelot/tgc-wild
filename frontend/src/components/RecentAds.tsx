@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import AdCard, { AdType } from "./AdCard";
 import { useState } from "react";
 import { useQuery } from "@apollo/client";
@@ -14,7 +14,7 @@ const CustomButton = styled(Button)({
   padding: "5px",
   boxShadow: "none",
   "&:hover": {
-    backgroundColor: "#ad7a99", // Changez la couleur de fond au survol
+    backgroundColor: "#ad7a99",
   },
 }) as typeof Button;
 

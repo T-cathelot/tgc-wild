@@ -1,4 +1,3 @@
-import axios from "axios";
 import Link from "next/link";
 import React from "react";
 import { CategoriesProps } from "./AdCategories";
@@ -64,16 +63,6 @@ const AdCard = ({
     }
   );
 
-  const deleteAd = async () => {
-    doDelete({
-      variables: { deleteAdsId: id },
-    });
-
-    // {
-    //   onDelete();
-    // }
-  };
-
   const addPrice = () => {
     {
       onAddToTotalPrice(price);
@@ -88,16 +77,13 @@ const AdCard = ({
 
   return (
     <Card sx={{ maxWidth: 345, boxShadow: "  0.5px 0.5px 5px grey" }}>
-      <CardMedia
-        component="img"
-        alt="green iguana"
-        height="200"
-        image={imgUrl}
-      />
+      <CardMedia component="img" alt="adImg" height="200" image={imgUrl} />
 
       <CardContent>
         <Typography gutterBottom variant="h5" component="div" color="#ad7a99">
-          {title}
+          <Link href={`/ads/${id}/`} className="adcard-title-link">
+            {title}
+          </Link>
         </Typography>
         <Typography variant="body1" color="text.secondary">
           {price + "€"}
@@ -129,32 +115,6 @@ const AdCard = ({
         </CardContent>
       </Collapse>
     </Card>
-
-    // <div className="ad-card-container">
-    //   {/* <a className="ad-card-link" href={link}></a> */}
-    //   <div className="ad-card-title">{title}</div>
-    //   <div className="ad-card-image-div">
-    //     <img className="ad-card-image" src={imgUrl} />
-    //   </div>
-    //   <p className="ad-card-description">Description :</p>
-    //   <div className="ad-card-text">
-    //     <div className="ad-card-description">{description}</div>
-    //     <div className="ad-card-price">{price}€</div>
-    //   </div>
-    //   <div className="ad-card-link-container">
-    //     <Link href={`ads/${id}/edit`} className="ad-card-link">
-    //       Modifier l&apos;annonce
-    //     </Link>
-    //   </div>
-    //   <div className="btn-container">
-    //     <button className="btn-add" onClick={addPrice}>
-    //       ajouter
-    //     </button>
-    //     <button className="btn-delete" onClick={deleteAd}>
-    //       supprimer
-    //     </button>
-    //   </div>
-    // </div>
   );
 };
 

@@ -1,39 +1,59 @@
 import "@/styles/global_test.css";
 import type { AppProps } from "next/app";
 import dynamic from "next/dynamic";
-import { Toaster } from "react-hot-toast";
 import {
   ApolloClient,
   InMemoryCache,
   ApolloProvider,
-  gql,
+  createHttpLink,
+  useQuery,
 } from "@apollo/client";
+import { ToastContainer, toast } from "react-toastify";
+import { getMe } from "@/graphql/getMe";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
+import { UserType } from "@/types";
+
+const link = createHttpLink({
+  uri: "http://localhost:5000",
+  credentials: "include",
+});
 
 const client = new ApolloClient({
-  uri: "http://localhost:5000",
   cache: new InMemoryCache(),
+  link,
 });
+
+const publicPages = ["/", "/signup", "/ads/[id]"];
+
+const Auth = (props: { children: React.ReactNode }) => {
+  const { data, loading, error } = useQuery<{ item: UserType }>(getMe);
+  const router = useRouter();
+  console.log("here the data", data);
+
+  useEffect(() => {
+    if (publicPages.includes(router.pathname) === false) {
+      if (error) {
+        router.replace("/signin");
+      }
+    }
+  }, [router.pathname, error]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  return props.children;
+};
 
 function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <ApolloProvider client={client}>
-        <Component {...pageProps} />
-        <Toaster
-          position="top-right"
-          containerStyle={{ marginTop: "10%", marginLeft: "10%" }}
-          toastOptions={{
-            success: {
-              style: { background: "#9b9b9baf", color: "white" },
-            },
-            error: {
-              style: {
-                background: "#9b9b9baf",
-                color: "white",
-              },
-            },
-          }}
-        />
+        <Auth>
+          <ToastContainer />
+          <Component {...pageProps} />
+        </Auth>
       </ApolloProvider>
     </>
   );

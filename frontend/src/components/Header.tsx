@@ -3,12 +3,15 @@ import Link from "next/link";
 import AdCategories from "./AdCategories";
 import { CategoriesProps } from "./AdCategories";
 import { useRouter } from "next/router";
-import { useQuery } from "@apollo/client";
+import { useApolloClient, useMutation, useQuery } from "@apollo/client";
 import { getAllCategories } from "@/graphql/getAllCategories";
 import { Tooltip } from "react-tooltip";
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import { styled } from "@mui/material/styles";
+import { UserType } from "@/types";
+import { getMe } from "@/graphql/getMe";
+import { signout } from "@/graphql/signout";
 
 const SearchTextField = styled(TextField)({
   "& Label": {
@@ -44,12 +47,25 @@ const Header = () => {
     e.preventDefault();
     router.push(`/?searchWord=${searchWord.trim()}`);
   }
+  const [doSignout] = useMutation(signout, {
+    refetchQueries: [getMe],
+  });
+
+  const ApolloClient = useApolloClient();
+
+  const logout = async () => {
+    ApolloClient.clearStore();
+    doSignout();
+  };
 
   const { data, error, loading } = useQuery<{ items: CategoriesProps[] }>(
     getAllCategories
   );
 
   const categories = data ? data.items : [];
+
+  const { data: meData } = useQuery<{ item: UserType }>(getMe);
+  const me = meData?.item;
 
   return (
     <header className="header">
@@ -60,18 +76,18 @@ const Header = () => {
             <span className="mobile-short-label">
               <img
                 src="/images/achats.png"
-                data-tooltip-id="toolTipTest"
-                data-tooltip-content="Add your link here."
-                data-tooltip-place="bottom"
+                // data-tooltip-id="toolTipTest"
+                // data-tooltip-content="Home"
+                // data-tooltip-place="bottom"
                 className="app-logo"
               />
             </span>
             <span className="desktop-long-label">
               <img
                 src="/images/achats.png"
-                data-tooltip-id="toolTipTest"
-                data-tooltip-content="Add your link here."
-                data-tooltip-place="bottom"
+                // data-tooltip-id="toolTipTest"
+                // data-tooltip-content="Home"
+                // data-tooltip-place="bottom"
                 className="app-logo"
               />
             </span>
@@ -102,30 +118,28 @@ const Header = () => {
             />
           </Box>
           <button className="button button-primary" type="submit">
-            {/* ... le reste de votre bouton */} Find
+            {/* ... le reste de votre bouton */} Search
           </button>
         </form>
-        <Link href="/ads/new" className="btn-knitBall link-button">
-          <span className="mobile-short-label">
+        <div>
+          {me && (
+            <>
+              {" "}
+              {/* <button className="mobile-short-label">ajouter une annonce</button> */}
+              <button className="btn-add-header" onClick={logout}>
+                Déconnexion
+              </button>{" "}
+            </>
+          )}
+
+          {/* <button className="mobile-short-label">ajouter une annonce</button> */}
+          <button className="btn-add-header">
             {" "}
-            <img
-              src="/images/pelote-de-laine.png"
-              data-tooltip-id="toolTipTest"
-              data-tooltip-content="Add your link here."
-              data-tooltip-place="bottom"
-              className="app-logo"
-            />
-          </span>
-          <span className="desktop-long-label">
-            {" "}
-            {/* <img
-              data-tooltip-id="toolTipTest"
-              data-tooltip-content="Add your link here."
-              data-tooltip-place="bottom"
-              className="app-logo"
-            /> */}
-          </span>
-        </Link>
+            <Link href="/ads/new" className="link-button">
+              ajouter une annonce{" "}
+            </Link>
+          </button>
+        </div>
       </div>
       <nav className="categories-navigation">
         {loading === true && <p>Chargement</p>}

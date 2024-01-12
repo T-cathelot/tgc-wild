@@ -3,7 +3,7 @@ import { CategoriesProps } from "@/components/AdCategories";
 import Layout from "@/components/Layout";
 import { useRouter } from "next/router";
 import { FormEvent, useEffect, useState } from "react";
-import { toast } from "react-hot-toast";
+import { toast } from "react-toastify";
 import { createAds } from "@/graphql/createAds";
 import { useMutation, useQuery } from "@apollo/client";
 import { getAllAds } from "@/graphql/getAllAds";
@@ -111,6 +111,10 @@ export default function AdForm(props: AdFormProps) {
       setCategoryId(categories[0].id);
     }
   }, [props.ad, categories]);
+
+  if (createLoading || updateLoading) {
+    return toast.loading("Chargement...");
+  }
 
   return (
     <Layout title="Nouvelle offre">
